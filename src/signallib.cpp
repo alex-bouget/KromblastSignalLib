@@ -39,6 +39,8 @@ void SignalLib::load_functions()
     std::ostringstream buffer;
     buffer << file.rdbuf();
     std::string inject = buffer.str();
+    // Delete STRINGIFY() macro
+    inject = inject.substr(10, inject.size() - 12);
 #else
     std::string inject = 
     #include "functions.js"

@@ -7,9 +7,9 @@ project(
 
 cc = meson.get_compiler('cpp')
 
-# if get_option('buildtype').startswith('debug')
-#   add_project_arguments('-DDEBUG', language : 'cpp')
-# endif
+if get_option('buildtype').startswith('debug')
+  add_project_arguments('-DDEBUG', language : 'cpp')
+endif
 
 kromblast_api_dep = subproject('kromblast').get_variable('kromblast_api_dep')
 

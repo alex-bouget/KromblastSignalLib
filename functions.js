@@ -1,4 +1,3 @@
-
 STRINGIFY(
 (() => {
     let proto_events = ["bubbles", "cancelable", "composed", "currentTarget", "defaultPrevented",
