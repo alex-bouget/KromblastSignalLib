@@ -1,6 +1,13 @@
+#include "kromblast_compiler_utils.hpp"
 #include "signallib.hpp"
 #include "kromblast_api_dispatcher.hpp"
 #include <functional>
+#ifdef KROMBLAST_DEBUG
+#include <fstream>
+#include <sstream>
+#else
+#define STRINGIFY(x) #x
+#endif
 
 std::string SignalLib::get_version()
 {
@@ -25,8 +32,18 @@ void SignalLib::load_functions()
     Kromblast::Core::kromblast_callback_t callback = {
         "kromblast_signal",
         2,
-        std::bind(&SignalLib::send_signal, this, std::placeholders::_1)
-    };
+        std::bind(&SignalLib::send_signal, this, std::placeholders::_1)};
     kromblast->get_plugin()->claim_callback(callback);
-
+#ifdef KROMBLAST_DEBUG
+    std::ifstream file("functions.js");
+    std::ostringstream buffer;
+    buffer << file.rdbuf();
+    std::string inject = buffer.str();
+#else
+    std::string inject = 
+    #include "functions.js"
+    ;
+#endif
+    kromblast->log("SignalLib", inject);
+    kromblast->get_window()->init_inject(inject);
 }

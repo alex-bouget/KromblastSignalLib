@@ -8,8 +8,8 @@
             "type": "by-gdb",
             "request": "launch",
             "name": "Launch(gdb)",
-            "program": "${workspaceRoot}/build/subprojects/Kromblast",
-            "programArgs": "json test_plugins.json",
+            "program": "${workspaceRoot}/build/subprojects/alex-bouget_kromblast/Kromblast",
+            "programArgs": "json test.json",
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "C/C++: ninja générer l'app",
         }
