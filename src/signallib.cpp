@@ -22,7 +22,7 @@ void SignalLib::set_kromblast(void *kromblast)
 std::string SignalLib::send_signal(Kromblast::Core::kromblast_callback_called_t *parameters)
 {
     kromblast->log("SignalLib", "Signal received");
-    Kromblast::Api::Signal signal = {parameters->args[0], parameters->args[1]};
+    Kromblast::Api::Signal signal = {"Swindow." + parameters->args[0], parameters->args[1]};
     kromblast->get_dispatcher()->dispatch(signal);
     return "{\"ok\": true}";
 }
