@@ -4,15 +4,12 @@
 
 class SignalLib : public Kromblast::Class::KromLib
 {
-private:
-    Kromblast::Api::KromblastInterface *kromblast;
-
 public:
-    std::string get_version();
+    std::string get_version() override;
 
-    void set_kromblast(void *kromblast);
+    void at_start() override;
 
     std::string send_signal(Kromblast::Core::kromblast_callback_called_t *parameters);
 
-    void load_functions();
+    void load_functions() override;
 };

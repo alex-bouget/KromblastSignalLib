@@ -1,6 +1,7 @@
 #include "kromblast_compiler_utils.hpp"
 #include "signallib.hpp"
 #include "kromblast_api_dispatcher.hpp"
+#include "kromblast_api_plugin_utils.hpp"
 #include <functional>
 #ifdef KROMBLAST_DEBUG
 #include <fstream>
@@ -11,20 +12,19 @@
 
 std::string SignalLib::get_version()
 {
-    return "0.1.0";
+    return "0.2.0";
 }
 
-void SignalLib::set_kromblast(void *kromblast)
+void SignalLib::at_start()
 {
-    this->kromblast = (Kromblast::Api::KromblastInterface *)kromblast;
 }
 
 std::string SignalLib::send_signal(Kromblast::Core::kromblast_callback_called_t *parameters)
 {
-    kromblast->log("SignalLib", "Signal received");
-    Kromblast::Api::Signal signal = {"Swindow." + parameters->args[0], parameters->args[1]};
-    kromblast->get_dispatcher()->dispatch(signal);
-    return "{\"ok\": true}";
+    kromblast().get_logger()->log("SignalLib", "Signal received");
+    Kromblast::Api::Signal signal{"kromlib.core.signal_js." + parameters->args[0], parameters->args[1]};
+    kromblast().get_dispatcher()->dispatch(signal);
+    return R"({"ok": true})";
 }
 
 void SignalLib::load_functions()
@@ -33,7 +33,12 @@ void SignalLib::load_functions()
         "kromblast_signal",
         2,
         std::bind(&SignalLib::send_signal, this, std::placeholders::_1)};
-    kromblast->get_plugin()->claim_callback(callback);
+    kromblast().get_plugin()->claim_callback(
+        "kromlib.core.signal_js",
+        2,
+        BIND_CALLBACK(SignalLib::send_signal),
+        // Allow all urls
+        std::vector<std::regex>{std::regex("^.*$")});
 #ifdef KROMBLAST_DEBUG
     std::ifstream file("functions.js");
     std::ostringstream buffer;
@@ -46,6 +51,6 @@ void SignalLib::load_functions()
     #include "functions.js"
     ;
 #endif
-    kromblast->log("SignalLib", inject);
-    kromblast->get_window()->init_inject(inject);
+    kromblast().get_logger()->log("SignalLib", inject);
+    kromblast().get_window()->init_inject(inject);
 }

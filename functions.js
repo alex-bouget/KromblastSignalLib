@@ -28,7 +28,7 @@ STRINGIFY(
                 if (proto_subevent[event.constructor.name]) {
                     properties = properties.concat(proto_subevent[event.constructor.name]);
                 }
-                kromblast_signal(key, JSON.stringify(event, properties));
+                kromlib.core.signal_js(key, JSON.stringify(event, properties));
             });
         }
     });

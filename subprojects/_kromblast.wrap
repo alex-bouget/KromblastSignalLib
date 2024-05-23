@@ -1,9 +1,9 @@
 [wrap-file]
 directory = alex-bouget_kromblast
 lead_directory_missing = true
-source_url = https://github.com/alex-bouget/Kromblastcpp/releases/download/v0.2.1/kromblast.zip
+source_url = https://github.com/alex-bouget/Kromblastcpp/releases/download/v0.3.0/kromblast.zip
 source_filename = kromblast.zip
-source_hash = b96a04158f97227f5edb848f66f56340e6f8d6fb7c62eb2c4a8580375c610933
+source_hash = 111be939f94878b9b4b83aa6850cc97d2b2542a413a11c28b34064e2117755bc
 
 
 [provide]
